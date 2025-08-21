@@ -63,10 +63,10 @@ def parse_html(html):
     
     for article in articles:
         try:
-            # Ищем заголовок (entity_title)
+            # Ищем (entity_title)
             title = None
             title_selectors = [
-                # Точные классы из скриншота
+                
                 '.entry_title',
                 'h2.entry_title', 
                 'h3.entry_title',

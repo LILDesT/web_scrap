@@ -50,6 +50,20 @@ python test_service.py
 ```bash
 docker-compose down
 ```
-
----
-**✅ Готов к продакшену: Celery + Redis + Docker + защита от ботов**
+## **Пример запроса**
+```bash
+$ curl -X POST http://localhost:8000/tasks -H "Content-Type: application/json" -d '{"url":"https://24.kz/kz"}'
+Ответ:
+{"task_id":"b29b2ac7-9c86-4786-b9a8-95d2a2512269"}
+```
+```bash
+curl http://localhost:8000/tasks/b29b2ac7-9c86-4786-b9a8-95d2a2512269
+Ответ:
+{"status":"SUCCESS","data":[{"entity_title":"Қасым-Жомарт Тоқаев Қырғыз Республикасына ресми сапармен барды","entry_meta_date":"Дата 
+не найдена","url":"https://kz.kz/kz/zha-aly-tar/basty-zha-aly-tar/725704-kasym-zomart-tokaev-kyrgyz-respublikasyna-resmi-saparmen-bardy"},{"entity_title":"Елордаға жеткізілген балалардың жағдайы ауыр","entry_meta_date":"Бүгін 11:11","url":"https://kz.kz/kz/zha-aly-tar/o-i-a/725641-elordaga-zhetkizilgen-balalardyn-zhagdajy-auyr"},{"entity_title":"Қазақстанда жұмыссыздар саны қысқарды","entry_meta_date":"Бүгін 09:37","url":"https://kz.kz/kz/zha-aly-tar/ekonomika/725625-kazakstanda-zhumyssyzdar-sany-kyskardy"},{"entity_title":"Чемпиондар лигасы: «Қайрат» пен «Селтик» тең түсті","entry_meta_date":"Бүгін 09:25","url":"https://kz.kz/kz/zha-aly-tar/sport/725621-cempiondar-ligasy-kajrat-pen-seltik-ten-tusti"}........
+```
+```bash
+curl http://localhost:8000/stats/domain-limiter
+Ответ:
+{"domain_stats":{},"config":{"max_concurrent_per_domain":3}}
+```

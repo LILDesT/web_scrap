@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-08-21T18:36:02.984029",
+  "tests": {
+    "api_health": {
+      "status": "OK",
+      "code": 200
+    },
+    "domain_stats_initial": {
+      "status": "OK",
+      "max_concurrent": 3,
+      "domains": [],
+      "domain_count": 0
+    },
+    "concurrent_limits": {
+      "created_tasks": 5,
+      "failed_tasks": 0,
+      "task_ids": [
+        "b79df253-7f20-4592-ba86-00dfb8c59423",
+        "b398f413-2b65-4969-a227-94ebe7d6ecb9",
+        "07f63706-301d-4a04-9fce-1c41aab964b3",
+        "f8d35b41-67fa-458f-8bd7-567b6f8f00a0",
+        "3140db9b-aa66-47f5-99e3-3812a53da069"
+      ],
+      "domain_stats": {
+        "status": "OK",
+        "max_concurrent": 3,
+        "domains": [],
+        "domain_count": 0
+      }
+    },
+    "scraping_workflow": {
+      "status": "OK",
+      "task_id": "30499a51-b67a-444d-906e-450d29c8e26b",
+      "execution_time": 32,
+      "news_count": 107,
+      "final_status": {
+        "status": "OK",
+        "task_status": "SUCCESS",
+        "data_count": 107,
+        "error": null
+      }
+    },
+    "domain_stats_final": {
+      "status": "OK",
+      "max_concurrent": 3,
+      "domains": [],
+      "domain_count": 0
+    }
+  }
+}

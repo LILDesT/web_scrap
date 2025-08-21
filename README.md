@@ -7,7 +7,7 @@
 docker-compose up -d --build
 ```
 
-**Готово!** Сервис доступен на http://localhost:8000
+Сервис будет доступен на http://localhost:8000
 
  **Тест**
 ```bash

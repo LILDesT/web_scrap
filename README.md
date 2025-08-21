@@ -20,16 +20,6 @@ curl http://localhost:8000/tasks/TASK_ID
 # Статистика доменов
 curl http://localhost:8000/stats/domain-limiter
 
-### PowerShell
-```powershell
-# Создать задачу
-$response = Invoke-RestMethod -Uri "http://localhost:8000/tasks" -Method Post -Body '{"url":"https://24.kz/kz"}' -Headers @{"Content-Type"="application/json"}
-
-# Проверить результат
-Start-Sleep 5
-Invoke-RestMethod -Uri "http://localhost:8000/tasks/$($response.task_id)"
-```
-
 ## 📊 **Мониторинг**
 - **API Docs**: http://localhost:8000/docs
 - **Flower**: http://localhost:5555  

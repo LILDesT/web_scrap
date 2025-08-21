@@ -1,0 +1,87 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: webscraper_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: webscraper_api
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MAX_CONCURRENT_REQUESTS_PER_DOMAIN=3
+      - REQUEST_DELAY=2.0
+      - MAX_RETRIES=3
+      - RETRY_BACKOFF=2.0
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: python -m app.api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    volumes:
+      - ./app:/app/app:ro
+
+  celery_worker:
+    build: .
+    container_name: webscraper_worker
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MAX_CONCURRENT_REQUESTS_PER_DOMAIN=3
+      - REQUEST_DELAY=2.0
+      - MAX_RETRIES=3
+      - RETRY_BACKOFF=2.0
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: celery -A app.celery worker --loglevel=info --queues=scraping --concurrency=4
+    healthcheck:
+      test: ["CMD", "celery", "-A", "app.celery", "inspect", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    volumes:
+      - ./app:/app/app:ro
+
+  flower:
+    build: .
+    container_name: webscraper_flower
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: celery -A app.celery --broker=redis://redis:6379 flower --port=5555
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5555"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  default:
+    name: webscraper_network

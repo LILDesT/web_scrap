@@ -28,7 +28,7 @@ class DomainLimiter:
     
         start_wait = time.time()
         
-        print(f"🔒 Domain limiter: Requesting access to {domain} "
+        print(f"Domain limiter: Requesting access to {domain} "
               f"(active: {self.active_requests[domain]}/{self.max_concurrent_per_domain})")
         
         await semaphore.acquire()
@@ -39,9 +39,9 @@ class DomainLimiter:
         self.total_requests[domain] += 1
         
         if wait_time > 0.1:
-            print(f"⏰ Domain limiter: Waited {wait_time:.2f}s for {domain}")
+            print(f"Domain limiter: Waited {wait_time:.2f}s for {domain}")
         
-        print(f"✅ Domain limiter: Access granted to {domain} "
+        print(f"Domain limiter: Access granted to {domain} "
               f"(active: {self.active_requests[domain]}/{self.max_concurrent_per_domain})")
         
         return semaphore
@@ -53,7 +53,7 @@ class DomainLimiter:
         
         self.active_requests[domain] = max(0, self.active_requests[domain] - 1)
         
-        print(f"🔓 Domain limiter: Released access to {domain} "
+        print(f"Domain limiter: Released access to {domain} "
               f"(active: {self.active_requests[domain]}/{self.max_concurrent_per_domain})")
 
     def get_stats(self) -> Dict:

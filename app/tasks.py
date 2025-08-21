@@ -136,11 +136,11 @@ def parse_html(html):
                     url = link_elem['href']
                     
                     if url.startswith('/'):
-                        url = f"https://kz.kz{url}"
+                        url = f"https://24.kz{url}"
                     elif url.startswith('http'):
                         pass 
                     else:
-                        url = f"https://kz.kz/{url}"
+                        url = f"https://24.kz/{url}"
                     break
             
             
@@ -180,7 +180,7 @@ def parse_html(html):
                 if link and link.get('href'):
                     url = link['href']
                     if url.startswith('/'):
-                        url = f"https://kz.kz{url}"
+                        url = f"https://24.kz{url}"
                 
                 news_items.append({
                     'entity_title': title,

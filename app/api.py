@@ -6,7 +6,6 @@ from app.redis_client import get_task_result
 from app.domain_limiter import domain_limiter
 import uvicorn
 
-
 app = FastAPI(title="Web Scraper API", description="A FastAPI application for web scraping")
 
 class TaskRequest(BaseModel):

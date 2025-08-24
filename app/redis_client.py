@@ -14,6 +14,32 @@ def save_task(task_id: str, task_data: dict):
     pipeline.execute()
 
 def get_task_result(task_id: str) -> dict:
+    celery_key = f"celery-task-meta-{task_id}"
+    celery_result = redis_client.get(celery_key)
+    
+    if celery_result:
+        try:
+            result_data = json.loads(celery_result)
+            if result_data.get("status") == "SUCCESS":
+                return {
+                    "status": "SUCCESS",
+                    "data": result_data.get("result", []),
+                    "error": None
+                }
+            elif result_data.get("status") == "FAILURE":
+                return {
+                    "status": "FAILURE",
+                    "data": None,
+                    "error": result_data.get("traceback", "Unknown error")
+                }
+            else:
+                return {
+                    "status": result_data.get("status", "PENDING"),
+                    "data": None,
+                    "error": None
+                }
+        except json.JSONDecodeError:
+            pass
     data = redis_client.hgetall(f"task:{task_id}")
     if not data:
         return {}

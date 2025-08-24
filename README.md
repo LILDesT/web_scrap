@@ -23,7 +23,7 @@ curl http://localhost:8000/stats/domain-limiter
 - **API Docs**: http://localhost:8000/docs
 - **Flower**: http://localhost:5555  
 - **Logs**: `docker-compose logs -f`
-
+```
 **Настройки** (docker-compose.yml)
 - `MAX_CONCURRENT_REQUESTS_PER_DOMAIN=3` - Лимит запросов к домену
 - `REQUEST_DELAY=2.0` - Задержка между запросами  
